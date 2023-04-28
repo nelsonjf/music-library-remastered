@@ -5,21 +5,25 @@ import SearchBar from './Components/SearchBar';
 
 function App() {
   const [search, setSearch] = useState("")
-  const [data, setData] = useState([])
   const [message, setMessage] = useState("Search for Music!")
+  const [data, setData] = useState([])
+
+  const API_URL = 'https://itunes.apple.com/search?term='
 
   useEffect(() => {
-    const fetchData = async () => {
-      document.title = `${search} Music`
-      const response = await fetch('https://itunes.apple.com/search?term=nirvana')
-      const resData = await response.json()
-      if (resData.results.length > 0) {
-        setData(resData.results)
-      } else {
-        setMessage('Artist not found!')
+    if (search) {
+      const fetchData = async () => {
+        document.title = `${search} Music`
+        const response = await fetch(API_URL + search)
+        const resData = await response.json()
+        if (resData.results.length > 0) {
+          setData(resData.results)
+        } else {
+          setMessage('Artist not found!')
+        }
       }
+      fetchData()
     }
-    fetchData()
   }, [search])
 
   const handleSearch = (e, term) => {
@@ -31,7 +35,7 @@ function App() {
     <div className="App">
       <SearchBar handleSearch={handleSearch} />
       {message}
-      <Gallery />
+      <Gallery data={data} />
     </div>
   );
 }
