@@ -1,6 +1,12 @@
+import { useState } from "react"
+
 function GalleryItem() {
+    const [viewDetails, setViewDetails] = useState(false)
+    
     return (
-        <h1>GalleryItem</h1>
+        <div onClick={() => setViewDetails(!viewDetails)} style={{display: 'inline-block'}}>
+            <p>Gallery Item</p>
+        </div>
     )
 }
 
